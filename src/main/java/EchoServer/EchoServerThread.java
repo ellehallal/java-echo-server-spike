@@ -14,21 +14,19 @@ public class EchoServerThread extends Thread{
     }
 
     @Override
-    public void run() {
+    public void run(){
         try {
             System.out.println("Client connected\n");
-
-            var input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            var output = new PrintWriter(socket.getOutputStream(), true);
-            handleClientMessage(input, output);
+            handleClientMessage(socket);
 
         } catch(IOException e) {
             System.out.println("Server error: " + e.getMessage());
         }
     }
 
-    private static void handleClientMessage
-            (BufferedReader input, PrintWriter output) throws IOException {
+    private static void handleClientMessage(Socket socket) throws IOException {
+        var input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        var output = new PrintWriter(socket.getOutputStream(), true);
 
         while(true) {
             var clientMessage = input.readLine();
