@@ -12,8 +12,8 @@ public class EchoClient {
     public static void startClient(String hostAddress, int portNumber) throws IOException {
         try (Socket socket = new Socket(hostAddress, portNumber)) {
             var scanner = new Scanner(System.in);
-            var stringToEcho = new PrintWriter(socket.getOutputStream(), true);
             var inputStreamReader = new InputStreamReader(socket.getInputStream());
+            var stringToEcho = new PrintWriter(socket.getOutputStream(), true);
             var echoes = new BufferedReader(inputStreamReader);
             var echoString = "";
 
