@@ -2,51 +2,52 @@ package EchoServer;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class EchoServerThread extends Thread{
+public class ClientHandler extends Thread{
     private final Socket socket;
+    private final BufferedReader input;
+    private final PrintWriter output;
 
-    public EchoServerThread(Socket socket) {
+    public ClientHandler(Socket socket, BufferedReader input, PrintWriter output) {
         this.socket = socket;
+        this.input = input;
+        this.output = output;
     }
 
     @Override
-    public void run(){
+    public void run() {
         try {
             System.out.println("Client connected\n");
-            handleClientMessage(socket);
+            handleClientMessage();
 
         } catch(IOException e) {
             System.out.println("Server error: " + e.getMessage());
         }
     }
 
-    private static void handleClientMessage(Socket socket) throws IOException {
-        var input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        var output = new PrintWriter(socket.getOutputStream(), true);
+    private void handleClientMessage() throws IOException {
 
         while(true) {
             var clientMessage = input.readLine();
             if (clientMessage.equals("exit")) {
                 System.out.println("Client disconnected");
+                socket.close();
                 break;
             }
 
             displayReceivedClientMessage(clientMessage);
-            echoToClient(output, clientMessage);
+            echoToClient(clientMessage);
         }
     }
 
-    private static void displayReceivedClientMessage(String clientMessage) {
+    private void displayReceivedClientMessage(String clientMessage) {
         System.out.println("Message received from client: " + clientMessage);
         System.out.println("Sending message back to client...\n");
     }
 
-    private static void echoToClient(PrintWriter output, String clientMessage) {
+    private void echoToClient(String clientMessage) {
         output.println("Echo from server: " + clientMessage);
     }
-
 }
