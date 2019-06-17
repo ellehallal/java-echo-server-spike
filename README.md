@@ -1,1 +1,1 @@
-# Java EchoServer Spike
+# Java EchoServer.EchoServer Spike
