@@ -5,24 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.sql.Connection;
 
 public class EchoServer {
-    private final ServerSocket serverSocket;
-    private BufferedReader input;
-    private PrintWriter output;
 
-    public EchoServer(ServerSocket serverSocket) {
-        this.serverSocket = serverSocket;
-    }
-
-    public void startServer() {
-        try(var socket = serverSocket.accept()) {
+    public static void startServer(int portNumber) {
+        try(var serverSocket = new ServerSocket(portNumber)) {
+            var socket = serverSocket.accept();
             System.out.println("Client connected");
 
-            input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            output = new PrintWriter(socket.getOutputStream(), true);
-            handleClientInput();
+            var input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            var output = new PrintWriter(socket.getOutputStream(), true);
+            handleClientInput(input, output);
 
         } catch(IOException exception) {
             System.out.println("Server exception: " + exception.getMessage());
@@ -30,7 +23,8 @@ public class EchoServer {
     }
 
 
-    private void handleClientInput() throws IOException {
+    private static void handleClientInput
+            (BufferedReader input, PrintWriter output) throws IOException {
         while(true) {
             var clientInput = input.readLine();
             if (clientInput.equals("exit")) {
