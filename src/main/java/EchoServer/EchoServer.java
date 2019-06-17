@@ -23,19 +23,28 @@ public class EchoServer {
         }
     }
 
-
     private static void handleClientMessage
             (BufferedReader input, PrintWriter output) throws IOException {
+
         while(true) {
             var clientMessage = input.readLine();
             if (clientMessage.equals("exit")) {
                 System.out.println("Client disconnected");
                 break;
             }
-            System.out.println("Message received from client: " + clientMessage);
-            System.out.println("Sending message back to client...");
-            output.println("Echo from server: " + clientMessage);
+
+            displayReceivedClientMessage(clientMessage);
+            echoToClient(output, clientMessage);
         }
+    }
+
+    private static void displayReceivedClientMessage(String clientMessage) {
+        System.out.println("Message received from client: " + clientMessage);
+        System.out.println("Sending message back to client...");
+    }
+
+    private static void echoToClient(PrintWriter output, String clientMessage) {
+        output.println("Echo from server: " + clientMessage);
     }
 
 }
