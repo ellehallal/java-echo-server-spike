@@ -16,7 +16,7 @@ public class EchoServerThread extends Thread{
     @Override
     public void run() {
         try {
-            System.out.println("Client connected");
+            System.out.println("Client connected\n");
 
             var input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             var output = new PrintWriter(socket.getOutputStream(), true);
@@ -44,7 +44,7 @@ public class EchoServerThread extends Thread{
 
     private static void displayReceivedClientMessage(String clientMessage) {
         System.out.println("Message received from client: " + clientMessage);
-        System.out.println("Sending message back to client...");
+        System.out.println("Sending message back to client...\n");
     }
 
     private static void echoToClient(PrintWriter output, String clientMessage) {
