@@ -9,11 +9,11 @@ import java.net.ServerSocket;
 public class EchoServer {
 
     public static void startServer(int portNumber) {
-        try(var serverSocket = new ServerSocket(portNumber)) {
+        try (var serverSocket = new ServerSocket(portNumber)) {
             System.out.println("Server started");
 
 
-            while(true) {
+            while (true) {
                 var socket = serverSocket.accept();
                 var inputStreamReader = new InputStreamReader(socket.getInputStream());
                 var input = new BufferedReader(inputStreamReader);
@@ -23,7 +23,7 @@ public class EchoServer {
                 newThread.start();
             }
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Server error: " + e.getMessage());
         }
     }
