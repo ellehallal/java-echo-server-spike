@@ -33,6 +33,8 @@ public class ClientHandler extends Thread{
             var clientMessage = input.readLine();
             if (clientMessage.equals("exit")) {
                 System.out.println("Client disconnected");
+                input.close();
+                output.close();
                 socket.close();
                 break;
             }
