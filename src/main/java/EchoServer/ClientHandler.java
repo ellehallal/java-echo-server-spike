@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class ClientHandler extends Thread{
+public class ClientHandler extends Thread {
     private final Socket socket;
     private final BufferedReader input;
     private final PrintWriter output;
@@ -22,17 +22,19 @@ public class ClientHandler extends Thread{
             System.out.println("Client connected\n");
             handleClientMessage();
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             System.out.println("Server error: " + e.getMessage());
         }
     }
 
     private void handleClientMessage() throws IOException {
 
-        while(true) {
+        while (true) {
             var clientMessage = input.readLine();
             if (clientMessage.equals("exit")) {
                 System.out.println("Client disconnected");
+                input.close();
+                output.close();
                 socket.close();
                 break;
             }
